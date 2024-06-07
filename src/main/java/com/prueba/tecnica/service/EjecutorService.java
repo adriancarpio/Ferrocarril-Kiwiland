@@ -7,7 +7,7 @@ import java.util.PriorityQueue;
 
 import org.springframework.stereotype.Service;
 
-import com.prueba.tecnica.dto.RouteNode;
+import com.prueba.tecnica.dto.NodoRuta;
 import com.prueba.tecnica.repo.EjecutorRepo;
 
 @Service
@@ -68,26 +68,22 @@ public class EjecutorService implements EjecutorRepo {
 	@Override
 	public int rutaMasCorta(String comenzar, String fin) {
 
-		/*if (comenzar.equals(fin)) {
-			return encontrarCicloCorto(comenzar);
-		}*/
-
-		PriorityQueue<RouteNode> queue = new PriorityQueue<>(Comparator.comparingInt(node -> node.getDistance()));
-		queue.add(new RouteNode(comenzar, 0));
+		PriorityQueue<NodoRuta> queue = new PriorityQueue<>(Comparator.comparingInt(node -> node.getDistancia()));
+		queue.add(new NodoRuta(comenzar, 0));
 		Map<String, Integer> distances = new HashMap<>();
 		distances.put(comenzar, 0);
 
 		while (!queue.isEmpty()) {
-			RouteNode current = queue.poll();
-			if (current.getTown().equals(fin) && current.getDistance() > 0) {
-				return current.getDistance();
+			NodoRuta current = queue.poll();
+			if (current.getCiudad().equals(fin) && current.getDistancia() > 0) {
+				return current.getDistancia();
 			}
-			if (grafico.containsKey(current.getTown())) {
-				for (Map.Entry<String, Integer> neighbor : grafico.get(current.getTown()).entrySet()) {
-					int newDist = current.getDistance() + neighbor.getValue();
+			if (grafico.containsKey(current.getCiudad())) {
+				for (Map.Entry<String, Integer> neighbor : grafico.get(current.getCiudad()).entrySet()) {
+					int newDist = current.getDistancia() + neighbor.getValue();
 					if (newDist < distances.getOrDefault(neighbor.getKey(), Integer.MAX_VALUE)) {
 						distances.put(neighbor.getKey(), newDist);
-						queue.add(new RouteNode(neighbor.getKey(), newDist));
+						queue.add(new NodoRuta(neighbor.getKey(), newDist));
 					}
 				}
 			}
@@ -120,19 +116,19 @@ public class EjecutorService implements EjecutorRepo {
 
 	@Override
 	public int encontrarCicloCorto(String comenzar) {
-		PriorityQueue<RouteNode> queue = new PriorityQueue<>(Comparator.comparingInt(node -> node.getDistance()));
-		queue.add(new RouteNode(comenzar, 0));
+		PriorityQueue<NodoRuta> queue = new PriorityQueue<>(Comparator.comparingInt(node -> node.getDistancia()));
+		queue.add(new NodoRuta(comenzar, 0));
 		int cicloMasCorto = Integer.MAX_VALUE;
 
 		while (!queue.isEmpty()) {
-			RouteNode actual = queue.poll();
-			if (actual.getTown().equals(comenzar) && actual.getDistance() > 0) {
-				cicloMasCorto = Math.min(cicloMasCorto, actual.getDistance());
+			NodoRuta actual = queue.poll();
+			if (actual.getCiudad().equals(comenzar) && actual.getDistancia() > 0) {
+				cicloMasCorto = Math.min(cicloMasCorto, actual.getDistancia());
 			}
-			if (grafico.containsKey(actual.getTown())) {
-				for (Map.Entry<String, Integer> neighbor : grafico.get(actual.getTown()).entrySet()) {
-					int newDist = actual.getDistance() + neighbor.getValue();
-					queue.add(new RouteNode(neighbor.getKey(), newDist));
+			if (grafico.containsKey(actual.getCiudad())) {
+				for (Map.Entry<String, Integer> neighbor : grafico.get(actual.getCiudad()).entrySet()) {
+					int newDist = actual.getDistancia() + neighbor.getValue();
+					queue.add(new NodoRuta(neighbor.getKey(), newDist));
 				}
 			}
 		}

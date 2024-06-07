@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RouteNode {
-    String town;
-    int distance;
+public class NodoRuta {
+    String ciudad;
+    int distancia;
 }
