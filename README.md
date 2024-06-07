@@ -15,7 +15,7 @@ El proyecto Ferrocarril Kiwiland es una aplicación que ayuda a calcular la dist
 ## Configuración del Proyecto
 
 1. Clona el repositorio:
-    [git clone https://github.com/tu-usuario/tu-repositorio.git](https://github.com/adriancarpio/prueba-netby.git)
+    https://github.com/adriancarpio/Ferrocarril-Kiwiland.git
     cd tu-repositorio
 
 2. Compila el proyecto usando Maven:
